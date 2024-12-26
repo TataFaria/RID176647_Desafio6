@@ -11,7 +11,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-
 router.get('/:id', async (req, res) => {
     try {
         const produto = await Produto.findByPk(req.params.id);
@@ -21,7 +20,6 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
 
 router.post('/', async (req, res) => {
     try {

@@ -1,31 +1,28 @@
-require('dotenv').config(); 
 const express = require('express');
-const sequelize = require('./src/dataBase/Connection'); 
-
 const app = express();
+require('dotenv').config();
+const sequelize = require('./src/dataBase/Connection');
+
+const produtosRoutes = require('./src/routes/productRoute');
+const vendasRoutes = require('./src/routes/salesRoute'); 
+
 app.use(express.json()); 
-
-const produtosRoutes = require('./src/routes/product');
-const vendasRoutes = require('./src/routes/sale');
-
-app.use('/api/produtos', produtosRoutes);
-app.use('/api/vendas', vendasRoutes);
-
-autoSyncDatabase();
+app.use('/api/produtos', produtosRoutes); 
+app.use('/api/vendas', vendasRoutes); 
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-});
-
-async function autoSyncDatabase() {
+async function startServer() {
     try {
-        await sequelize.authenticate(); 
-        console.log('Conexão com o banco de dados estabelecida com sucesso!');
-        await sequelize.sync(); 
-        console.log('Modelos sincronizados com o banco de dados!');
+        await sequelize.authenticate();
+        console.log('Conexão com o banco de dados bem-sucedida!');
+
+        await sequelize.sync({ alter: true }); 
+        console.log('Tabelas sincronizadas com sucesso!');
+
+        app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
     } catch (error) {
-        console.error('Erro ao conectar ao banco de dados:', error);
+        console.error('Erro ao iniciar o servidor:', error);
     }
 }
+startServer();
