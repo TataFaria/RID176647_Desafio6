@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/Connection');
-const Product = require('./Product');
 
 const Stock = sequelize.define('Stock', {
     id: {
@@ -14,12 +13,8 @@ const Stock = sequelize.define('Stock', {
         defaultValue: 0,
     },
 }, {
-    tableName: 'stocks', // Nome da tabela no banco de dados
+    tableName: 'stocks', 
     timestamps: true,
 });
-
-// Relacionamento
-Stock.belongsTo(Product, { foreignKey: 'id_product', onDelete: 'CASCADE' });
-Product.hasOne(Stock, { foreignKey: 'id_product', onDelete: 'CASCADE' });
 
 module.exports = Stock;

@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/Connection');
-const Sales = require('./Sales'); // Importando o modelo relacionado
+
 
 const Client = sequelize.define('Client', {
     id: {
@@ -21,12 +21,8 @@ const Client = sequelize.define('Client', {
         },
     },
 }, {
-    tableName: 'clients', // Nome da tabela no banco de dados
+    tableName: 'clients', 
     timestamps: true,
 });
-
-// Relacionamento: Um cliente pode ter várias vendas
-Client.hasMany(Sales, { foreignKey: 'id_client', onDelete: 'CASCADE' });
-Sales.belongsTo(Client, { foreignKey: 'id_client' });
 
 module.exports = Client;

@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/Connection');
-const Product = require('./Product');
 
 const Order = sequelize.define('Order', {
     id: {
@@ -17,12 +16,8 @@ const Order = sequelize.define('Order', {
         allowNull: false,
     },
 }, {
-    tableName: 'orders', // Nome da tabela no banco de dados
+    tableName: 'orders',
     timestamps: true,
 });
-
-// Relacionamento
-Order.belongsTo(Product, { foreignKey: 'id_product', onDelete: 'CASCADE' });
-Product.hasMany(Order, { foreignKey: 'id_product', onDelete: 'CASCADE' });
 
 module.exports = Order;
