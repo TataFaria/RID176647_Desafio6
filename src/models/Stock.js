@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize')
 const sequelize = require('../database/Connection');
 
 const Stock = sequelize.define('Stock', {
@@ -13,8 +13,9 @@ const Stock = sequelize.define('Stock', {
         defaultValue: 0,
     },
 }, {
-    tableName: 'stocks', 
+    tableName: 'stocks',
     timestamps: true,
 });
 
 module.exports = Stock;
+

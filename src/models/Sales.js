@@ -7,17 +7,14 @@ const Sales = sequelize.define('Sales', {
         primaryKey: true,
         autoIncrement: true,
     },
-    quantidade: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
     valorVenda: {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
 }, {
-    tableName: 'sales', 
+    tableName: 'sales',
     timestamps: true,
 });
 
 module.exports = Sales;
+

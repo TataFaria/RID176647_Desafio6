@@ -16,9 +16,10 @@ const ItemSales = sequelize.define('ItemSales', {
         allowNull: false,
     },
 }, {
-    tableName: 'item_sales', 
+    tableName: 'item_sales',
     timestamps: true,
 });
 
 
 module.exports = ItemSales;
+

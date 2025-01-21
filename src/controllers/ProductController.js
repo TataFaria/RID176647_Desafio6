@@ -1,6 +1,5 @@
 const Product = require('../models/Product');
 const Stock = require('../models/Stock');
-const Order = require('../models/Order');
 
 const ProductController = {
     async create(req, res) {
