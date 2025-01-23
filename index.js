@@ -1,67 +1,41 @@
 require('dotenv').config(); 
 const express = require('express');
 const sequelize = require('./src/database/Connection.js');
-
-// Importando todos os modelos
-const Client = require('./src/models/Client.js');
-const Product = require('./src/models/Product.js');
-const Stock = require('./src/models/Stock.js');
-const Sales = require('./src/models/Sales.js');
-const ItemSales = require('./src/models/ItemSales.js');
-
-// Relacionamentos
-
-// Relacionamento com Produto
-Stock.belongsTo(Product, { foreignKey: 'id_product', onDelete: 'CASCADE' });
-Product.hasOne(Stock, { foreignKey: 'id_product', onDelete: 'CASCADE' });
-
-// Relacionamento com Cliente
-Sales.belongsTo(Client, { foreignKey: 'id_client', onDelete: 'CASCADE' });
-Client.hasMany(Sales, { foreignKey: 'id_client', onDelete: 'CASCADE' });
-
-// Relacionamentos com Venda e Produto
-ItemSales.belongsTo(Sales, { foreignKey: 'id_sales', onDelete: 'CASCADE' });
-Sales.hasMany(ItemSales, { foreignKey: 'id_sales', onDelete: 'CASCADE' });
-
-ItemSales.belongsTo(Product, { foreignKey: 'id_product', onDelete: 'CASCADE' });
-Product.hasMany(ItemSales, { foreignKey: 'id_product', onDelete: 'CASCADE' });
-
+const cors = require('cors');
+const bodyParser= require('body-parser');
 
 // Middlewares e Rotas
-const clientRoute = require('./src/routes/clientRoute.js');
-const productsRoute = require('./src/routes/productsRoute.js');
-const stockRoute = require('./src/routes/stockRoute.js');
-const salesRoute = require('./src/routes/salesRoute.js');
-const errorHandler = require('./src/middleware/errorHadler.js');
+const clientesRoute = require('./src/routes/clientesRoute.js')
+const produtosRoute = require('./src/routes/produtosRoute.js') 
+const estoqueRoute = require('./src/routes/estoqueRoute.js')
+const pedidosRoute = require('./src/routes/pedidoProdutoRoute.js')
+const pedidoProdutoRoute = require('./src/routes/pedidoProdutoRoute.js')
+const vendasRoute = require('./src/routes/vendasRoute.js')
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middlewares
-app.use(express.json());
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(cors());
 
 // Rotas
-app.use('/api/clients', clientRoute);
-app.use('/api/products', productsRoute);
-app.use('/api/stocks', stockRoute);
-app.use('/api/sales', salesRoute);
+app.use('/clientes', clientesRoute)
+app.use('/produtos', produtosRoute) 
+app.use('/estoque', estoqueRoute)
+app.use('/pedidos', pedidosRoute)
+app.use('/pp', pedidoProdutoRoute)
+app.use('/vendas', vendasRoute)
 
-// Middleware de Erros
-app.use(errorHandler);
+const PORT = process.env.PORT || 3000;
 
-// Inicialização do Servidor
-const startServer = async () => {
-    try {
-        await sequelize.authenticate(); 
-        console.log('Conexão com o banco de dados bem-sucedida.');
-
-        await sequelize.sync(); 
-        console.log('Modelos sincronizados com o banco de dados.');
-
-        app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
-    } catch (error) {
-        console.error('Erro ao iniciar o servidor:', error.message);
-    }
-};
-
-startServer();
+// Conexão com o Banco de Dados e Início do Servidor
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('✅ Conectado ao banco de dados com sucesso');
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor iniciado na porta ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('❌ Falha ao conectar ao banco de dados:', error);
+    process.exit(1); 
+  });
