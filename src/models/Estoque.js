@@ -1,26 +1,33 @@
 const { DataTypes } = require('sequelize');
+const sequelize = require('../database/Connection');
 
-module.exports = function (sequelize) {
-  const Estoque = sequelize.define('estoque', {
-    IdProduto: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
+const Estoque = sequelize.define('Estoque', {
+    produto_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Produtos',
+            key: 'id',
+        },
+        onDelete: 'CASCADE',
     },
-    nome_produto: {
-      type: DataTypes.STRING(255),
-      allowNull: false
+    quantidade_disponivel: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
     },
-    QtDisponivel: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
-    }
-  }, {
-    tableName: 'estoque',
-    timestamps: false
-  });
+    data_criacao: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+    },
+    data_atualizacao: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+    },
+}, {
+    tableName: 'Estoque',
+    timestamps: false,
+});
 
-  return Estoque;
-};
+module.exports = Estoque;
 

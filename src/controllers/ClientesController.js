@@ -1,85 +1,42 @@
-const sequelize = require('../database/Connection'); 
-const Clientes = require('../../src/models/Clientes')(sequelize);
+const Cliente = require('../models/Clientes');
 
-const clientesController = {
-    getClientes: async (req, res) => {
-        try {
-            const clientes = await Clientes.findAll({
-                attributes:
-                    [
-                        'nome',
-                        'endereco',
-                        'contato'
-                    ]
-            });
-            res.json(clientes);
-        } catch (error) {
-            console.error('Erro ao obter clientes:', error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
-        }
-    },
-
-
-    getClienteById: async (req, res) => {
-        const { id } = req.params;
-        try {
-            const cliente = await Clientes.findByPk(id); 
-            if (!cliente) {
-                return res.status(404).json({ error: 'Cliente não encontrado' });
-            }
-            res.json(cliente);
-        } catch (error) {
-            console.error('Erro ao obter cliente:', error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
-        }
-    },
-
-
-    createCliente: async (req, res) => {
-        const { nome, endereco, contato } = req.body;
-        try {
-            const novoCliente = await Clientes.create({ nome, endereco, contato });
-            res.status(201).json(novoCliente); 
-        } catch (error) {
-            console.error('Erro ao criar cliente:', error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
-        }
-    },
-
-
-    updateCliente: async (req, res) => {
-        const { id } = req.params;
-        const { nome, endereco, contato } = req.body;
-        try {
-            const cliente = await Clientes.findByPk(id); 
-            if (!cliente) {
-                return res.status(404).json({ error: 'Cliente não encontrado' });
-            }
-            await cliente.update({ nome, endereco, contato }); 
-            res.json(cliente); 
-        } catch (error) {
-            console.error('Erro ao atualizar cliente:', error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
-        }
-    },
-
-
-    deleteCliente: async (req, res) => {
-        const { id } = req.params;
-        try {
-            const cliente = await Clientes.findByPk(id); 
-            if (!cliente) {
-                return res.status(404).json({ error: 'Cliente não encontrado' });
-            }
-            await cliente.destroy(); 
-            res.json({ message: 'Cliente excluído com sucesso' });
-        } catch (error) {
-            console.error('Erro ao excluir cliente:', error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
-        }
-    }
-
-
+exports.criarCliente = async (req, res) => {
+  try {
+    const cliente = await Cliente.create(req.body);
+    res.status(201).json(cliente);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao criar cliente." });
+  }
 };
 
-module.exports = clientesController;
+exports.listarClientes = async (req, res) => {
+  try {
+    const clientes = await Cliente.findAll();
+    res.json(clientes);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao listar clientes." });
+  }
+};
+
+exports.atualizarCliente = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [updated] = await Cliente.update(req.body, { where: { id } });
+    if (!updated) return res.status(404).json({ error: "Cliente não encontrado." });
+    res.json({ message: "Cliente atualizado com sucesso." });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao atualizar cliente." });
+  }
+};
+
+exports.excluirCliente = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await Cliente.destroy({ where: { id } });
+    if (!deleted) return res.status(404).json({ error: "Cliente não encontrado." });
+    res.json({ message: "Cliente excluído com sucesso." });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao excluir cliente." });
+  }
+};
+

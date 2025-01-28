@@ -1,38 +1,29 @@
 const { DataTypes } = require('sequelize');
+const sequelize = require('../database/Connection');
 
-module.exports = function(sequelize) {
-  return sequelize.define('clientes', {
-    IdCliente: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
+const Cliente = sequelize.define('Cliente', {
+    id: { 
+    type: DataTypes.INTEGER, 
+        primaryKey: true, 
+        autoIncrement: true 
     },
     nome: {
-      type: DataTypes.STRING(255),
-      allowNull: false
+        type: DataTypes.STRING(255),
+        allowNull: false,
     },
-    endereco: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    contato: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    }
-  }, {
-    tableName: 'clientes',
-    timestamps: true,
-    indexes: [
-      {
-        name: "PRIMARY",
+    email: {
+        type: DataTypes.STRING(255),
         unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "IdCliente" },
-        ]
-      },
-    ]
-  });
-};
+        allowNull: false,
+    },
+    telefone: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+    },
+}, {
+    tableName: 'Clientes',
+    timestamps: false,
+});
+
+module.exports = Cliente;
 

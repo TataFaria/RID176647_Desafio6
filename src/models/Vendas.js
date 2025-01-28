@@ -1,58 +1,20 @@
 const {DataTypes} = require('sequelize');
+const sequelize = require('../database/Connection');
+const Cliente = require('./Clientes');
 
-module.exports = function(sequelize, ) {
-  return sequelize.define('vendas', {
-    IdVenda: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
+const Venda = sequelize.define('Venda', {
+    total: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+        defaultValue: 0,
     },
-    IdPedido: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'pedidos',
-        key: 'IdPedido'
-      }
-    },
-    DtVenda: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    VlVenda: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    IdCliente: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'clientes',
-        key: 'IdCliente'
-      }
-    }
-  }, {
-    sequelize,
-    tableName: 'vendas',
-    timestamps: true,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "IdVenda" },
-        ]
-      },
-      {
-        name: "IdPedido",
-        using: "BTREE",
-        fields: [
-          { name: "IdPedido" },
-        ]
-      },
-    ]
-  });
-};
+}, {
+    tableName: 'Vendas',
+    timestamps: false,
+});
+
+Cliente.hasMany(Venda, { foreignKey: 'cliente_id', onDelete: 'CASCADE' });
+Venda.belongsTo(Cliente, { foreignKey: 'cliente_id' });
+
+module.exports = Venda;
 

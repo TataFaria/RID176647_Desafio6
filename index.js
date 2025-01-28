@@ -5,24 +5,22 @@ const cors = require('cors');
 const bodyParser= require('body-parser');
 
 // Middlewares e Rotas
-const clientesRoute = require('./src/routes/clientesRoute.js')
-const produtosRoute = require('./src/routes/produtosRoute.js') 
-const estoqueRoute = require('./src/routes/estoqueRoute.js')
-const pedidosRoute = require('./src/routes/pedidoProdutoRoute.js')
-const pedidoProdutoRoute = require('./src/routes/pedidoProdutoRoute.js')
-const vendasRoute = require('./src/routes/vendasRoute.js')
+const clienteRoutes = require('./src/routes/clientesRoute.js');
+const produtoRoutes = require('./src/routes/produtosRoute.js');
+const vendaRoutes = require('./src/routes/vendasRoute.js');
+const pedidoRoutes = require('./src/routes/pedidosRoute.js');
+const estoqueRoutes = require('./src/routes/estoqueRoute.js');
 
 const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
 
 // Rotas
-app.use('/clientes', clientesRoute)
-app.use('/produtos', produtosRoute) 
-app.use('/estoque', estoqueRoute)
-app.use('/pedidos', pedidosRoute)
-app.use('/pp', pedidoProdutoRoute)
-app.use('/vendas', vendasRoute)
+app.use("/clientes", clienteRoutes);
+app.use("/produtos", produtoRoutes);
+app.use("/vendas", vendaRoutes);
+app.use("/estoque", estoqueRoutes);
+app.use("/pedidos", pedidoRoutes);
 
 const PORT = process.env.PORT || 3000;
 

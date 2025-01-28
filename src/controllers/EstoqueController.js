@@ -1,84 +1,33 @@
-const sequelize = require('../database/Connection');
-const Estoque = require('../models/Estoque')(sequelize);
-const Produto = require('../models/Produtos')(sequelize);
+const Estoque = require('../models/Estoque');
+const Produto = require("../models/Produtos");
 
-const estoqueController = {
-    getEstoque: async (req, res) => {
-        try {
-            const estoque = await Estoque.findAll({
-                attributes:
-                    [
-                        'nome_produto',
-                        'QtDisponivel'
-                    ]
-            });
-            res.json(estoque);
-        } catch (error) {
-            console.error('Erro ao obter estoque:', error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
-        }
-    },
-
-    getEstoqueById: async (req, res) => {
-        const { id } = req.params;
-        try {
-            const estoque = await Estoque.findByPk(id);
-            if (!estoque) {
-                return res.status(404).json({ error: 'Estoque não localizado' });
-            }
-            res.json(estoque);
-        } catch (error) {
-            console.error('Erro ao obter estoque:', error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
-        }
-    },
-
-    updateEstoque: async (req, res) => {
-        const { id } = req.params;
-        const { QtDisponivel } = req.body;
-        try {
-            const estoque = await Estoque.findByPk(id);
-            if (!estoque) {
-                return res.status(404).json({ error: 'Estoque não encontrado' });
-            }
-            await estoque.update({ QtDisponivel });
-
-            const produto = await Produto.findOne({ where: { IdProduto: id } });
-            if (produto) {
-                produto.QtDisponivelEstoque =  QtDisponivel;
-                await produto.save();
-            }
-
-
-            res.json(estoque);
-        } catch (error) {
-            console.error('Erro ao atualizar estoque:', error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
-        }
-    },
-
-    deleteEstoque: async (req, res) => {
-        const { id } = req.params;
-        try {
-            
-            await Estoque.destroy({ where: { IdProduto: id } });
-
-            const deletedCount = await Produto.destroy({ where: { IdProduto: id } });
-            if (deletedCount === 0) {
-                return res.status(404).json({ error: 'Produto não encontrado' });
-            }
-
-            res.json({ message: 'Produto excluído com sucesso' });
-        } catch (error) {
-            console.error('Erro ao excluir produto:', error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
-        }
-    }
+exports.listarEstoque = async (req, res) => {
+  try {
+    const estoque = await Estoque.findAll({
+      include: { model: Produto, attributes: ["nome_produto", "descricao_produto"] },
+    });
+    res.json(estoque);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao listar estoque." });
+  }
 };
 
+exports.atualizarEstoque = async (req, res) => {
+  try {
+    const { produto_id } = req.params;
+    const { quantidade_disponivel } = req.body;
 
+    const estoque = await Estoque.findOne({ where: { produto_id } });
 
+    if (!estoque) {
+      return res.status(404).json({ error: "Produto não encontrado no estoque." });
+    }
 
+    estoque.quantidade_disponivel = quantidade_disponivel;
+    await estoque.save();
 
-
-module.exports = estoqueController;
+    res.json({ message: "Estoque atualizado com sucesso.", estoque });
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao atualizar estoque." });
+  }
+};

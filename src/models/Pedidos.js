@@ -1,59 +1,27 @@
 const { DataTypes } = require('sequelize');
+const sequelize = require('../database/Connection');
+const Venda = require('./Vendas');
+const Produto = require('./Produtos');
 
-module.exports = function(sequelize) {
-  
-  return sequelize.define('pedidos', {
-    IdPedido: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
+
+const Pedido = sequelize.define('Pedido', {
+    quantidade: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
-    QtPedida: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+    subtotal: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
     },
-    DtPedido: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    StPedido: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    VlPedido: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    IdCliente: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'clientes',
-        key: 'IdCliente'
-      }
-    }
-  }, {
-    sequelize,
-    tableName: 'pedidos',
-    timestamps: true,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "IdPedido" },
-        ]
-      },
-      {
-        name: "IdCliente",
-        using: "BTREE",
-        fields: [
-          { name: "IdCliente" },
-        ]
-      }
-      ,
-    ] 
-  });
-};
+}, {
+    tableName: 'Pedidos',
+    timestamps: false,
+});
+
+Venda.hasMany(Pedido, { foreignKey: 'venda_id', onDelete: 'CASCADE' });
+Pedido.belongsTo(Venda, { foreignKey: 'venda_id' });
+
+Produto.hasMany(Pedido, { foreignKey: 'produto_id', onDelete: 'CASCADE' });
+Pedido.belongsTo(Produto, { foreignKey: 'produto_id' });
+
+module.exports = Pedido;
