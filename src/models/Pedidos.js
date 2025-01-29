@@ -15,7 +15,7 @@ const Pedido = sequelize.define('Pedido', {
     },
 }, {
     tableName: 'Pedidos',
-    timestamps: false,
+    timestamps: true,
 });
 
 Venda.hasMany(Pedido, { foreignKey: 'venda_id', onDelete: 'CASCADE' });

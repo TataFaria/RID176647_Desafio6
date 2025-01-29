@@ -10,7 +10,7 @@ const Venda = sequelize.define('Venda', {
     },
 }, {
     tableName: 'Vendas',
-    timestamps: false,
+    timestamps: true,
 });
 
 Cliente.hasMany(Venda, { foreignKey: 'cliente_id', onDelete: 'CASCADE' });
