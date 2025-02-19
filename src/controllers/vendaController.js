@@ -50,7 +50,6 @@ exports.listarVendas = async (req, res) => {
   }
 };
 
-  // Atualizar uma venda
 exports.atualizarVenda = async (req, res) => {
   try {
     const { id } = req.params;
@@ -68,7 +67,6 @@ exports.atualizarVenda = async (req, res) => {
   }
 };
 
-// Excluir uma venda
 exports.excluirVenda = async (req, res) => {
   try {
     const { id } = req.params;
@@ -76,7 +74,7 @@ exports.excluirVenda = async (req, res) => {
     const venda = await Venda.findByPk(id, { include: Pedido });
     if (!venda) return res.status(404).json({ error: "Venda não encontrada." });
 
-    // Reverter o estoque ao excluir os pedidos relacionados
+  
     for (const pedido of venda.Pedidos) {
       const estoque = await Estoque.findOne({ where: { produto_id: pedido.produto_id } });
       if (estoque) {
@@ -85,8 +83,8 @@ exports.excluirVenda = async (req, res) => {
       }
     }
 
-    await Pedido.destroy({ where: { venda_id: id } }); // Remove os pedidos relacionados
-    await venda.destroy(); // Remove a venda
+    await Pedido.destroy({ where: { venda_id: id } }); 
+    await venda.destroy(); 
 
     res.json({ message: "Venda excluída com sucesso." });
   } catch (error) {

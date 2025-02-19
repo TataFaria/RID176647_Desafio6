@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-const { Sequelize } = require('sequelize');
-=======
 const Sequelize = require('sequelize')
->>>>>>> 16479332b7d75ced0ad75cefa6da5bb7b4a1955a
 require('dotenv').config();
 
 const sequelize = new Sequelize(
@@ -13,11 +9,10 @@ const sequelize = new Sequelize(
         host: process.env.DB_HOST,
         dialect: 'mysql',
         port: process.env.DB_PORT,
-        logging: false, // Desativa logs do Sequelize
+        logging: false, 
     }
 );
 
-// Testa a conexão
 (async () => {
     try {
         await sequelize.authenticate();
