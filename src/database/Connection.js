@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const { Sequelize } = require('sequelize');
+=======
+const Sequelize = require('sequelize')
+>>>>>>> 16479332b7d75ced0ad75cefa6da5bb7b4a1955a
 require('dotenv').config();
 
 const sequelize = new Sequelize(

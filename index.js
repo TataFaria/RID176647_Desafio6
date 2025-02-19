@@ -1,6 +1,7 @@
 require('dotenv').config(); // Carrega as variáveis de ambiente
 const express = require('express');
 const sequelize = require('./src/database/Connection.js');
+<<<<<<< HEAD
 
 // Importando todos os modelos
 const Client = require('./src/models/Client');
@@ -50,3 +51,41 @@ const startServer = async () => {
 };
 
 startServer();
+=======
+const cors = require('cors');
+const bodyParser= require('body-parser');
+
+// Middlewares e Rotas
+const clienteRoutes = require('./src/routes/clientesRoute.js');
+const produtoRoutes = require('./src/routes/produtosRoute.js');
+const vendaRoutes = require('./src/routes/vendasRoute.js');
+const pedidoRoutes = require('./src/routes/pedidosRoute.js');
+const estoqueRoutes = require('./src/routes/estoqueRoute.js');
+
+const app = express();
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(cors());
+
+// Rotas
+app.use("/clientes", clienteRoutes);
+app.use("/produtos", produtoRoutes);
+app.use("/vendas", vendaRoutes);
+app.use("/estoque", estoqueRoutes);
+app.use("/pedidos", pedidoRoutes);
+
+const PORT = process.env.PORT || 3000;
+
+// Conexão com o Banco de Dados e Início do Servidor
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('✅ Conectado ao banco de dados com sucesso');
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor iniciado na porta ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('❌ Falha ao conectar ao banco de dados:', error);
+    process.exit(1); 
+  });
+>>>>>>> 16479332b7d75ced0ad75cefa6da5bb7b4a1955a
