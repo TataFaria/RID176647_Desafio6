@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const sequelize = require('./src/database/Connection.js');
 const cors = require('cors');
-const bodyParser = require('body-parser');
+
 
 // Middlewares e Rotas
 const clienteRoutes = require('./src/routes/clientesRoute.js');
@@ -12,7 +12,8 @@ const pedidoRoutes = require('./src/routes/pedidosRoute.js');
 const estoqueRoutes = require('./src/routes/estoqueRoute.js');
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 
