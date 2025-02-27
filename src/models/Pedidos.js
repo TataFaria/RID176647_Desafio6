@@ -4,15 +4,36 @@ const Venda = require('./Vendas');
 const Produto = require('./Produtos');
 
 
-const Pedido = sequelize.define('Pedido', {
+const Pedido = sequelize.define('pedidos', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+    },
+
     quantidade: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+
     subtotal: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
     },
+
+    createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    },
+
+    updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+    },
+    
 }, {
     tableName: 'Pedidos',
     timestamps: true,
