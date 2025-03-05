@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Estoque.init({
+    estoque_id: DataTypes.INTEGER,
     produto_id: DataTypes.INTEGER,
     quantidade_disponivel: DataTypes.INTEGER
   }, {

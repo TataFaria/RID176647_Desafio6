@@ -2,9 +2,9 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("produtos", {
-      id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true, allowNull: false },
-      nome_produto: { type: Sequelize.STRING(100), allowNull: false },
+    await queryInterface.createTable('produtos', {
+      produto_id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true, allowNull: false },
+      nome_produto: { type: Sequelize.STRING(255), allowNull: false },
       descricao_produto: { type: Sequelize.TEXT, allowNull: true },
       preco_produto: { type: Sequelize.DECIMAL(10, 2), allowNull: false },
       createdAt: { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.literal("CURRENT_TIMESTAMP") },
@@ -12,6 +12,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Produtos');
+    await queryInterface.dropTable('produtos');
   }
 };

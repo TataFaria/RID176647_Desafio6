@@ -1,39 +1,26 @@
-const {DataTypes} = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../database/Connection');
 const Cliente = require('./Clientes');
 
-const Venda = sequelize.define('vendas', {
-    id: {
-        type: Sequelize.INTEGER,
+const Venda = sequelize.define('Venda', {
+    venda_id: {
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
     },
-
     data_venda: {
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
+        defaultValue: sequelize.literal("CURRENT_TIMESTAMP")
     },
 
     total_venda: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
-
-    createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
-    },
-
-    updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
-    },
 }, {
-    tableName: 'Vendas',
+    tableName: 'vendas',
     timestamps: true,
 });
 

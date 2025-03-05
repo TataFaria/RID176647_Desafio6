@@ -14,12 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Produto.init({
+    produto_id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      },
     nome_produto: DataTypes.STRING,
     descricao_produto: DataTypes.TEXT,
     preco_produto: DataTypes.DECIMAL
   }, {
     sequelize,
-    modelName: 'Produto',
+    modelName: 'Produtos',
   });
   return Produto;
 };

@@ -2,8 +2,8 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../database/Connection');
 
 const Estoque = sequelize.define('estoque', {
-    id: {
-        type: Sequelize.INTEGER,
+    estoque_id: {
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
@@ -23,22 +23,11 @@ const Estoque = sequelize.define('estoque', {
         allowNull: false,
         defaultValue: 0,
     },
-
-    createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
-    },
-      
-    updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
-    },
 }, {
     tableName: 'Estoques',
     timestamps: false,
 });
 
 module.exports = Estoque;
+
 
