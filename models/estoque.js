@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     quantidade_disponivel: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Estoques',
+    modelName: 'Estoque',
   });
   return Estoque;
 };

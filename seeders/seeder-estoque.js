@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
  async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("estoques", [
+    await queryInterface.bulkInsert("estoque", [
       {
         produto_id: 1, // ID do Shampoo
         quantidade_disponivel: 50,
@@ -20,7 +20,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("estoques", null, {});
+    await queryInterface.bulkDelete("estoque", null, {});
   },
 };
 

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-   await queryInterface.createTable("estoques", {
+   await queryInterface.createTable("estoque", {
       estoque_id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true, allowNull: false },
       produto_id: { 
         type: Sequelize.INTEGER, 
@@ -16,6 +16,7 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('estoques');
+    await queryInterface.removeConstraint("estoque", "estoque_ibfk_1"); 
+    await queryInterface.dropTable('estoque');
   }
 };
