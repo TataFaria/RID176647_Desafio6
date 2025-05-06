@@ -13,10 +13,11 @@ const Estoque = sequelize.define('estoque', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Produtos',
-            key: 'id',
+            model: 'produtos',
+            key: 'produto_id',
         },
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     },
     quantidade_disponivel: {
         type: DataTypes.INTEGER,
@@ -24,7 +25,7 @@ const Estoque = sequelize.define('estoque', {
         defaultValue: 0,
     },
 }, {
-    tableName: 'Estoque',
+    tableName: 'estoque',
     timestamps: false,
 });
 

@@ -1,25 +1,38 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Estoque extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Estoque.belongsTo(models.Produtos, {
+        foreignKey: 'produto_id',
+        as: 'produto'
+      });
     }
   }
+
   Estoque.init({
-    estoque_id: DataTypes.INTEGER,
-    produto_id: DataTypes.INTEGER,
-    quantidade_disponivel: DataTypes.INTEGER
+    estoque_id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
+    produto_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    quantidade_disponivel: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    }
   }, {
     sequelize,
     modelName: 'Estoque',
+    tableName: 'estoque', 
+    timestamps: true,
   });
+
   return Estoque;
 };

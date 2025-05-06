@@ -7,7 +7,7 @@ module.exports = {
       cliente_id: { 
         type: Sequelize.INTEGER, 
         allowNull: false, 
-        references: { model: "clientes", key: "id" },
+        references: { model: "clientes", key: "cliente_id" },
         onDelete: "CASCADE"
       },
       data_venda: { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.literal("CURRENT_TIMESTAMP") },

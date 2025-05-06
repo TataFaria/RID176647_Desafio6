@@ -5,8 +5,8 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("pedidos", [
       {
-        venda_id: 1, // Venda de João Silva
-        produto_id: 1, // Shampoo
+        venda_id: 1, 
+        produto_id: 1, 
         quantidade_pedido: 2,
         subtotal_pedido: 59.80,
         createdAt: new Date(),

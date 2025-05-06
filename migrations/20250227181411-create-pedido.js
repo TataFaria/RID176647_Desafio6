@@ -7,13 +7,13 @@ module.exports = {
   venda_id: { 
     type: Sequelize.INTEGER, 
     allowNull: false,
-    references: { model: "vendas", key: "id" },
+    references: { model: "vendas", key: "venda_id" },
     onDelete: "CASCADE",
   },
   produto_id: { 
     type: Sequelize.INTEGER, 
     allowNull: false,
-    references: { model: "produtos", key: "id" },
+    references: { model: "produtos", key: "produto_id" },
     onDelete: "CASCADE",
   },
   quantidade_pedido: { type: Sequelize.INTEGER, allowNull: false },

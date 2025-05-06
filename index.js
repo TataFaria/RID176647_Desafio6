@@ -26,7 +26,6 @@ app.use("/pedidos", pedidoRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-// Conexão com o Banco de Dados e Início do Servidor
 sequelize
   .authenticate()
   .then(() => {
